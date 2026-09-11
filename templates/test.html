@@ -1,3 +1,4 @@
+{% load blog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,17 @@
     <title>Test</title>
 </head>
 <body>
-    <p>{{post.title}}</p>
+    <h1>Testing Page</h1>
+    <p>test: </p>
+    {% popularposts %}
+
+
+
+
+
+    <!-- <p>test: {% posts as totalposts %}</p>
+    {% for post in totalposts %}
+        <p>{{post.title}}</p>
+    {% endfor %} -->
 </body>
 </html>
