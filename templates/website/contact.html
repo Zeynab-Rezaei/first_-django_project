@@ -11,7 +11,7 @@
 							<h1 class="text-white">
 								Contact Us				
 							</h1>	
-							<p class="text-white link-nav"><a href="index.html">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="contact.html"> Contact Us</a></p>
+							<p class="text-white link-nav"><a href="{% url 'website:index'%}">Home </a>  <span class="lnr lnr-arrow-right"></span>  <a href="{% url 'website:contact'%}"> Contact Us</a></p>
 						</div>	
 					</div>
 				</div>
@@ -55,8 +55,9 @@
 							</div>														
 						</div>
 						<div class="col-lg-8">
-							<form class="form-area contact-form text-right" id="myForm" action="mail.php" method="post">
+							<form class="form-area contact-form text-right" action="{% url 'website:contact'%}" method="post">
 								<div class="row">	
+									{% csrf_token %}
 									<div class="col-lg-6 form-group">
 										<input name="name" placeholder="Enter your name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'" class="common-input mb-20 form-control" required="" type="text">
 									
@@ -69,11 +70,35 @@
 									</div>
 									<div class="col-lg-12">
 										<div class="alert-msg" style="text-align: left;"></div>
-										<button class="genric-btn primary" style="float: right;">Send Message</button>											
+										<button type="submit" class="genric-btn primary" style="float: right;">Send Message</button>											
 									</div>
 								</div>
 							</form>	
 						</div>
+						{% if messages %}
+							{% for message in messages %}
+							<div class="alert {% if message.tags %} alert-{{message.tags}}{% endif %}">{{message|safe}}
+							</div>
+						   {% endfor %}
+						   {% endif%}
+
+						{% if form.error %}
+						  <div class="alert alert-error">
+							<h4>Please fix the following errors </h4>
+							<ul>
+								{% for field in form%}
+								  {% if field in form%}
+								   {% for error in field.errors %}
+								   <li><a href="#id_{{ field.name}}" class="error">{{error|escape}}</a></li>
+								   {%endfor%}
+								  {% endif%}
+								 {%endfor%}
+							</ul>
+							{% if form.non_field_errors %}
+								{{form.non_field_errors}}
+							{% endif %}
+						  </div>
+						  {% endif %}
 					</div>
 				</div>	
 			</section>
